@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise Técnica — tamurabrasil.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1e35;
+  --navy2:#1a2f4a;
+  --gold:#c9a84c;
+  --gold-pale:#f5ecd4;
+  --text:#1a1a2e;
+  --muted:#6b7280;
+  --border:#e5e0d5;
+  --surface:#fafaf8;
+  --red-soft:#fee2e2;--red-text:#991b1b;--red-border:#fca5a5;
+  --orange-soft:#fff7ed;--orange-text:#9a3412;--orange-border:#fdba74;
+  --green-soft:#dcfce7;--green-text:#166534;--green-border:#86efac;
+  --yellow-soft:#fef9c3;--yellow-text:#854d0e;
+  --blue-soft:#dbeafe;--blue-text:#1e40af;
+}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--surface);line-height:1.65;max-width:900px;margin:0 auto}
+
+/* CAPA */
+.cover{background:var(--navy);color:white;padding:3rem 2.5rem 2.5rem;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;right:0;width:250px;height:250px;border-top:1px solid rgba(201,168,76,0.15);border-left:1px solid rgba(201,168,76,0.15);border-radius:100% 0 0 0}
+.cover-eyebrow{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;font-weight:500}
+.cover-title{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;line-height:1.15;margin-bottom:0.4rem}
+.cover-url{font-size:0.9rem;color:rgba(255,255,255,0.4);margin-bottom:2rem;font-weight:300}
+.cover-meta{display:flex;gap:2.5rem;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,0.08);padding-top:1.2rem}
+.meta-item .ml{color:rgba(255,255,255,0.4);display:block;font-size:11px;margin-bottom:2px}
+.meta-item .mv{color:rgba(255,255,255,0.85);font-weight:500;font-size:13px}
+
+/* STATUS BAR */
+.status-bar{background:var(--navy2);padding:0.8rem 2.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;border-bottom:2px solid var(--gold)}
+.sp{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dr{background:#ef4444}.dy{background:#f59e0b}.dg{background:#22c55e}.db{background:#60a5fa}
+
+/* BODY */
+.body{padding:2.5rem}
+
+/* SECTION */
+.section{margin-bottom:3rem}
+.section-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.3rem;padding-bottom:0.8rem;border-bottom:1.5px solid var(--border)}
+.snum{font-size:11px;font-weight:500;color:var(--gold);letter-spacing:0.1em;background:var(--gold-pale);padding:2px 9px;border-radius:4px;flex-shrink:0}
+.stitle{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;color:var(--navy)}
+.sdesc{font-size:0.82rem;color:var(--muted);margin-left:auto;font-weight:400}
+
+/* SCORE CARDS */
+.score-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
+.score-card{background:white;border:1px solid var(--border);border-radius:8px;padding:0.85rem 0.75rem;text-align:center}
+.score-label{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;line-height:1.3}
+.score-value{font-size:1.6rem;font-weight:500;line-height:1}
+.score-sub{font-size:10px;color:var(--muted);margin-top:3px}
+.s-red{color:#dc2626}.s-orange{color:#ea580c}.s-yellow{color:#d97706}.s-green{color:#16a34a}.s-blue{color:#2563eb}
+
+/* FINDING CARDS */
+.finding{display:flex;gap:12px;padding:0.9rem 1rem;border-radius:7px;margin-bottom:8px;border:1px solid}
+.finding-critical{background:var(--red-soft);border-color:var(--red-border)}
+.finding-warning{background:var(--orange-soft);border-color:var(--orange-border)}
+.finding-ok{background:var(--green-soft);border-color:var(--green-border)}
+.finding-info{background:var(--blue-soft);border-color:#93c5fd}
+.finding-icon{flex-shrink:0;font-size:14px;margin-top:1px}
+.finding-body{}
+.finding-title{font-weight:500;font-size:0.9rem;margin-bottom:2px}
+.finding-desc{font-size:0.82rem;line-height:1.55;color:var(--text);opacity:0.85}
+.finding-tag{display:inline-flex;font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-bottom:4px}
+.tag-c{background:#fca5a5;color:#7f1d1d}
+.tag-w{background:#fdba74;color:#7c2d12}
+.tag-o{background:#86efac;color:#14532d}
+.tag-i{background:#93c5fd;color:#1e3a8a}
+
+/* CALLOUT */
+.callout{border-left:3px solid var(--gold);padding:0.85rem 1rem;background:var(--gold-pale);border-radius:0 6px 6px 0;font-size:0.875rem;color:#5c4a1a;margin-bottom:1.1rem}
+.callout strong{display:block;font-weight:500;margin-bottom:3px;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase}
+
+/* TABLE */
+.audit-table{width:100%;border-collapse:collapse;font-size:0.83rem;margin-bottom:1rem}
+.audit-table th{text-align:left;font-weight:500;font-size:11px;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);padding:7px 10px;border-bottom:1.5px solid var(--border);background:var(--surface)}
+.audit-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text)}
+.audit-table tr:last-child td{border-bottom:none}
+.audit-table tr:hover td{background:rgba(201,168,76,0.04)}
+
+/* BADGE */
+.badge{display:inline-flex;font-size:10px;font-weight:500;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.badge-red{background:var(--red-soft);color:var(--red-text)}
+.badge-yellow{background:var(--yellow-soft);color:var(--yellow-text)}
+.badge-green{background:var(--green-soft);color:var(--green-text)}
+.badge-blue{background:var(--blue-soft);color:var(--blue-text)}
+
+/* PRIORITY MATRIX */
+.matrix-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0}
+.matrix-cell{background:white;border:1px solid var(--border);border-radius:7px;padding:1rem}
+.matrix-cell h4{font-size:0.82rem;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px}
+.matrix-cell ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.matrix-cell li{font-size:0.82rem;color:var(--muted);padding-left:12px;position:relative;line-height:1.4}
+.matrix-cell li::before{content:'→';position:absolute;left:0;color:var(--gold)}
+.mc-red h4{color:var(--red-text)}
+.mc-orange h4{color:#c2410c}
+.mc-yellow h4{color:var(--yellow-text)}
+.mc-green h4{color:var(--green-text)}
+
+/* ROADMAP */
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:1rem}
+.phase{background:white;border:1px solid var(--border);border-radius:7px;padding:1.1rem;position:relative}
+.phase-tag{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.phase-title{font-size:0.9rem;font-weight:500;color:var(--navy);margin-bottom:10px}
+.phase ul{list-style:none;font-size:0.8rem;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.phase li::before{content:'→ ';color:var(--gold)}
+.phase-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:7px 7px 0 0}
+.pa-red{background:#ef4444}.pa-yellow{background:#f59e0b}.pa-green{background:#22c55e}
+
+.divider{height:1px;background:var(--border);margin:2rem 0}
+
+.sub-title{font-size:0.82rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.75rem;margin-top:1.2rem}
+
+.footer-note{font-size:11px;color:var(--muted);padding:1rem 0;border-top:1px solid var(--border);margin-top:2rem;text-align:center;letter-spacing:0.03em}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.info-box{background:white;border:1px solid var(--border);border-radius:7px;padding:1rem 1.1rem}
+.info-box h4{font-family:'Playfair Display',serif;font-size:0.95rem;color:var(--navy);margin-bottom:0.4rem}
+.info-box p{font-size:0.83rem;color:var(--muted);line-height:1.6}
+
+@media(max-width:600px){
+  .score-grid{grid-template-columns:repeat(3,1fr)}
+  .roadmap,.two-col,.matrix-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="cover-eyebrow">Auditoria técnica e estratégica · 2026</div>
+  <div class="cover-title">Análise Completa<br>do Site Tamura Brasil</div>
+  <div class="cover-url">tamurabrasil.com</div>
+  <div class="cover-meta">
+    <div class="meta-item"><span class="ml">Analista</span><span class="mv">Lucas Kazuo</span></div>
+    <div class="meta-item"><span class="ml">Destinatário</span><span class="mv">Morgana — Comercial</span></div>
+    <div class="meta-item"><span class="ml">Data</span><span class="mv">Março 2026</span></div>
+    <div class="meta-item"><span class="ml">Páginas analisadas</span><span class="mv">Home, Contato, Sobre Nós, Produtos</span></div>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="sp"><span class="dot dr"></span> Captação de leads — crítico</div>
+  <div class="sp"><span class="dot dr"></span> Performance técnica — crítico</div>
+  <div class="sp"><span class="dot dy"></span> Navegação — comprometida</div>
+  <div class="sp"><span class="dot dy"></span> SEO — fragmentado</div>
+  <div class="sp"><span class="dot db"></span> Conteúdo — presente, desatualizado</div>
+</div>
+
+<div class="body">
+
+<!-- PONTUAÇÃO GERAL -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">00</span>
+    <span class="stitle">Pontuação geral por dimensão</span>
+    <span class="sdesc">0 = inexistente · 10 = excelente</span>
+  </div>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="score-label">Captação de leads</div>
+      <div class="score-value s-red">2</div>
+      <div class="score-sub">Formulário escondido</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Performance</div>
+      <div class="score-value s-red">3</div>
+      <div class="score-sub">Código pesado, trackers</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Navegação / UX</div>
+      <div class="score-value s-orange">4</div>
+      <div class="score-sub">Menu sobrecarregado</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">SEO</div>
+      <div class="score-value s-orange">4</div>
+      <div class="score-sub">Estrutura fragmentada</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Conteúdo / Copy</div>
+      <div class="score-value s-yellow">5</div>
+      <div class="score-sub">Técnico, sem persuasão</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Responsividade</div>
+      <div class="score-value s-yellow">5</div>
+      <div class="score-sub">Presente, com falhas</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Confiança / Provas</div>
+      <div class="score-value s-yellow">5</div>
+      <div class="score-sub">Depoimentos sem detalhe</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Acessibilidade</div>
+      <div class="score-value s-red">2</div>
+      <div class="score-sub">Alt texts ausentes</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Rastreamento</div>
+      <div class="score-value s-orange">3</div>
+      <div class="score-sub">Pixels sem estratégia</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Estrutura técnica</div>
+      <div class="score-value s-orange">4</div>
+      <div class="score-sub">Domínios duplicados</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 01: ESTRUTURA TÉCNICA -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">01</span>
+    <span class="stitle">Estrutura técnica e arquitetura do site</span>
+  </div>
+
+  <div class="callout">
+    <strong>O que foi analisado</strong>
+    Organização de URLs, domínios utilizados, tecnologia do site, estrutura de código e dependências externas identificadas.
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Dois domínios diferentes em uso simultâneo</div>
+      <div class="finding-desc">O site principal roda em <strong>tamurabrasil.com</strong>, mas links de Política de Privacidade e outros redirecionam para <strong>transformadores.tamura-br.com.br</strong> — um domínio completamente diferente. Isso fragmenta a autoridade de SEO, gera confusão no usuário e indica falta de controle técnico sobre a propriedade digital. Para o Google, esses são dois sites distintos.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Blog em plataforma separada (WordPress isolado)</div>
+      <div class="finding-desc">A seção de conteúdo vive em <strong>tamurabrasil.com/conteudo/</strong> rodando WordPress, enquanto o restante do site é uma plataforma proprietária diferente. Isso cria dois sistemas desconectados, dobra o esforço de manutenção, prejudica a consistência visual, impede integração de dados e compromete o rastreamento de usuários entre as seções.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Formulários processados por serviço externo não identificado (paginas.rocks)</div>
+      <div class="finding-desc">Os formulários de orçamento e contato utilizam <strong>paginas.rocks</strong> para processamento — uma plataforma de terceiros que não é transparente. Isso significa que os dados dos leads saem do controle da empresa, não são integrados a nenhum CRM, e o destino final dos dados é desconhecido. Há imagem de spinner de loading carregando de lá, o que também impacta performance.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Newsletter processada por llimages.com — outra dependência opaca</div>
+      <div class="finding-desc">O formulário de newsletter no rodapé dispara uma requisição para <strong>llimages.com/redirect/redirect.aspx</strong>, outro serviço externo não identificado. Além de não integrar com CRM, há um pixel de rastreamento carregando dessa mesma URL em todas as páginas — risco de LGPD e performance.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">URL da home não padronizada — problema de canonicalização</div>
+      <div class="finding-desc"><strong>tamurabrasil.com/</strong> redireciona para <strong>tamurabrasil.com/pt-br/</strong>, mas as duas URLs existem. O conteúdo em inglês (<strong>/en/</strong>) e espanhol (<strong>/es/</strong>) também existem mas não possuem hreflang configurado corretamente, gerando conteúdo duplicado para o Google.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Rodapé com copyright desatualizado</div>
+      <div class="finding-desc">O rodapé exibe "2025 - TAMURA CORPORATION". Estamos em 2026. Pequeno detalhe, mas que passa impressão de abandono e descuido, especialmente para novos visitantes avaliando a empresa.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Horário de atendimento no rodapé sem informação real</div>
+      <div class="finding-desc">O rodapé tem a seção "Horário de Atendimento — Segunda à Sexta" mas <strong>não exibe os horários</strong>. O campo está incompleto em todas as páginas. Um visitante que queira saber quando ligar não encontra essa informação em lugar nenhum do site.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 02: PERFORMANCE E CÓDIGO -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">02</span>
+    <span class="stitle">Performance e qualidade do código</span>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Múltiplos pixels de rastreamento carregando no &lt;head&gt; de forma bloqueante</div>
+      <div class="finding-desc">O site carrega simultaneamente <strong>LinkedIn Insight Tag</strong> (pid=5215210) e <strong>Facebook Pixel</strong> (id=560165917489968) em todas as páginas — ambos via &lt;noscript&gt; e via script, o que dobra as requisições. Pixels carregando antes do conteúdo atrasam o tempo de renderização visível para o usuário. Sem uma estratégia clara de conversão, esses pixels estão coletando dados sem gerar retorno.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Imagens sem atributo alt — acessibilidade e SEO comprometidos</div>
+      <div class="finding-desc">Praticamente todas as imagens do site — produtos, banners, logotipos, ícones de países — estão com <strong>alt="" vazio ou ausente</strong>. Isso afeta: (1) ranqueamento nos buscadores, pois o Google não entende o que as imagens representam; (2) acessibilidade para usuários com deficiência visual; (3) experiência quando imagens não carregam.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Mix de formatos de imagem sem otimização consistente</div>
+      <div class="finding-desc">O site usa .jpg, .png, .webp e .gif misturados sem critério. Imagens de produtos chegam a ter timestamps Unix como nome de arquivo (ex: 1683662088.webp, 1642548212.jpg) — indicando upload manual sem curadoria. O .gif do logo do BNDES no rodapé é formato antigo e pesado. Sem lazy loading implementado, todas as imagens carregam de uma vez.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Spinner de loading de terceiro carregando em produção</div>
+      <div class="finding-desc">As páginas carregam imagens de spinner (loading) e ícone de erro diretamente do servidor paginas.rocks: <em>paginas.rocks/content/images/spinner.gif</em> e <em>error-icon.png</em>. Isso cria dependência externa para a interface — se o servidor de terceiro cair, o usuário vê ícones quebrados e erros visuais no formulário.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Nomes de produtos com códigos internos expostos ao usuário</div>
+      <div class="finding-desc">Vários produtos são listados apenas pelo código técnico: <strong>TSA15TPA-TSA15TPB, TSA25TPA-TSA25TPB, TSA36TPB, TSA36TCA, TSA15TCH</strong>. Para o cliente não-especialista, esses nomes não comunicam nada. Prejudica SEO (sem keywords de busca) e prejudica a experiência do usuário que tenta entender o catálogo.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 03: CAPTAÇÃO DE LEADS -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">03</span>
+    <span class="stitle">Captação de leads — análise do funil</span>
+  </div>
+
+  <div class="callout">
+    <strong>Ponto mais crítico do site</strong>
+    Esta seção detalha especificamente por que o site não gera leads apesar do tráfego gerado pelo investimento em marketing.
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Formulário de orçamento escondido no meio da home — sem destaque</div>
+      <div class="finding-desc">O único CTA de conversão da homepage ("Solicitar um Orçamento") está posicionado após um carrossel de banners, uma seção de produtos com 23 itens, uma grade de categorias e uma seção de áreas de atuação. O usuário precisa rolar dezenas de telas para encontrá-lo. Não há nenhum CTA fixo, nenhum botão flutuante, nenhuma barra de conversão no topo da página.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Nenhum telefone ou WhatsApp visível — o visitante não sabe como falar com a empresa</div>
+      <div class="finding-desc">Em nenhuma página do site — nem na home, nem na página de contato, nem no rodapé — há <strong>número de telefone ou WhatsApp</strong> disponível. Apenas endereços físicos. Para um segmento B2B industrial onde a venda começa com uma conversa técnica, isso é uma barreira de conversão gravíssima. O visitante qualificado que quer falar com um vendedor simplesmente não encontra como.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Nenhum e-mail de contato exibido</div>
+      <div class="finding-desc">Assim como o telefone, nenhum endereço de e-mail é exibido em nenhuma página pública do site. A única forma de contato é via formulário — que depende de JavaScript funcionar, do servidor paginas.rocks estar online e do formulário ser enviado com sucesso. Se qualquer etapa falhar, o lead se perde sem nenhuma alternativa.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Formulários sem integração com CRM — leads caem em caixa preta</div>
+      <div class="finding-desc">Os formulários são processados por paginas.rocks sem integração declarada com nenhum CRM. Não há RD Station, HubSpot, Salesforce, Pipedrive ou similar conectado. Isso significa que quando alguém preenche o formulário, não há pipeline de vendas sendo alimentado, não há follow-up automático, não há histórico de contato, e não há como saber quantos leads chegaram por qual canal.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Formulário da home simplificado vs. formulário de contato — inconsistência</div>
+      <div class="finding-desc">A home tem um formulário reduzido de "Solicitar Orçamento" com poucos campos, enquanto a página de Contato tem campos adicionais como Empresa, Cargo e "Setor a ser contatado". Essa inconsistência confunde e, sem saber onde o lead vai parar, pode estar enviando orçamentos para a caixa errada — ou para lugar nenhum.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Páginas de produto sem CTA de conversão individual</div>
+      <div class="finding-desc">Cada produto tem sua própria página, mas os botões de ação são apenas "Saber Mais" e "Confira" — que levam a mais informações, não para uma ação de compra ou contato. Uma landing page de produto B2B industrial deveria ter um botão de "Solicitar especificação técnica" ou "Falar com engenheiro" diretamente naquela página de produto.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Newsletter desconectada da estratégia comercial</div>
+      <div class="finding-desc">O rodapé tem um formulário de newsletter ("Fique por dentro das novidades") que coleta e-mail e nome — mas sem integração com CRM identificada. Leads que se inscrevem na newsletter não alimentam nenhum funil de nutrição. São dados perdidos.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 04: NAVEGAÇÃO E UX -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">04</span>
+    <span class="stitle">Navegação, UX e arquitetura da informação</span>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Menu de produtos com 15 itens no dropdown — paralisia de escolha</div>
+      <div class="finding-desc">O submenu de "Produtos" lista <strong>15 categorias simultâneas</strong>: Linha TC e TP, TC Baixa Tensão, TC Média Tensão, TP Baixa Tensão, TP Média Tensão, Transformadores de Média Tensão, Baixa Tensão, Aplicações Especiais, Energia Renovável, Sistemas Hospitalares, Fator K, Sistemas de Energia (+ BT e MT), Retificadores e Central de Downloads. Um visitante que não é especialista não sabe o que escolher. Um visitante que é especialista não vai achar a diferença entre "TC Baixa Tensão" e "Linha de Transformadores de Corrente e Potencial" no menu.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Homepage funciona como catálogo, não como página de entrada persuasiva</div>
+      <div class="finding-desc">A homepage apresenta imediatamente um carrossel de produtos técnicos com jargões específicos. Não há nenhuma frase de proposta de valor clara ("O que é a Tamura? Por que escolher a Tamura?"), nenhum número de destaque (100 anos de mercado, X clientes atendidos), e nenhum caminho guiado para o visitante. O usuário é despejado no catálogo sem contexto.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">23 produtos listados na grade da home sem hierarquia ou destaque</div>
+      <div class="finding-desc">A seção de produtos na homepage lista 23 produtos em grade visual, todos com o mesmo peso visual, sem distinção de mais vendidos, mais relevantes, novidades ou destaque editorial. O usuário não sabe por onde começar e a tendência é não clicar em nada.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Banners de imagem no sidebar com link genérico para Contato</div>
+      <div class="finding-desc">Várias páginas têm banners de imagem (minibanners/1626409026.jpg, minibanners/1630612855.jpg) que linkam apenas para a página de contato, sem contexto. São espaços desperdiçados que poderiam direcionar para produtos específicos, landing pages ou cases.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Vagas de emprego expostas na sidebar de todas as páginas</div>
+      <div class="finding-desc">O widget de "Vagas Disponíveis" com 8 cargos listados aparece no sidebar de todas as páginas — inclusive na página de Contato e na de Produtos. Um engenheiro buscando especificações técnicas não precisa ver que a Tamura está contratando Bobinador. Esse widget polui o foco e não contribui para conversão comercial.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Seção de depoimentos superficial — sem empresa, cargo ou foto</div>
+      <div class="finding-desc">A página "Sobre Nós" tem 3 depoimentos de clientes (Cezar, Almir, Ronaldo), mas sem sobrenome, sem empresa identificada, sem foto e sem contexto verificável. Para um mercado B2B de alta confiança como equipamentos elétricos industriais, depoimentos anônimos têm pouco impacto. Um case study com empresa e resultado real seria muito mais convincente.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 05: SEO -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">05</span>
+    <span class="stitle">SEO — otimização para mecanismos de busca</span>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Autoridade de domínio fragmentada entre dois domínios</div>
+      <div class="finding-desc">Links que saem do site principal apontando para <strong>transformadores.tamura-br.com.br</strong> transferem autoridade de SEO para fora do domínio principal. Todos os links deveriam apontar para dentro de tamurabrasil.com. Cada domínio constrói sua própria reputação no Google — ter dois enfraquece ambos.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Blog desatualizado — último post de setembro de 2024</div>
+      <div class="finding-desc">O conteúdo mais recente visível no blog é de setembro de 2024 ("O que é um Transformador de Potência?"), com apenas 6 artigos no total desde 2022. Para SEO orgânico, a frequência de publicação é essencial. Um blog industrial que publica menos de uma vez por mês tem dificuldade de ranquear para termos competitivos. O conteúdo existente também não tem meta descriptions otimizadas visíveis.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Ausência de dados estruturados (Schema.org)</div>
+      <div class="finding-desc">O site não implementa marcação Schema.org para Organização, Produto, Endereço ou FAQ. Esses dados estruturados melhoram a forma como o Google exibe o site nos resultados, permitem rich snippets (estrelas, endereço, telefone diretamente na busca) e aumentam a taxa de cliques orgânicos.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Falta de sitemap.xml e robots.txt auditados</div>
+      <div class="finding-desc">Com dois sistemas diferentes (site principal + WordPress no /conteudo/), é essencial ter um sitemap.xml unificado e um robots.txt que não bloqueie seções importantes. Sem auditoria dessas configurações, há risco de páginas importantes não serem indexadas.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Títulos de página genéricos — baixo potencial de ranqueamento</div>
+      <div class="finding-desc">Títulos como "Tamura Brasil Transformadores" e "Contato Tamura Brasil" são genéricos. Títulos otimizados deveriam incluir keywords específicas de intenção de busca: "Transformadores a Seco Industrial — Tamura Brasil | Santa Catarina e Minas Gerais" teria muito mais potencial orgânico.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 06: CONTEÚDO E COPY -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">06</span>
+    <span class="stitle">Conteúdo, copywriting e comunicação</span>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Ausência total de proposta de valor na homepage</div>
+      <div class="finding-desc">A primeira coisa que o visitante vê é um banner de produto técnico. Não há frase de abertura que responda: "Por que a Tamura Brasil?" O site assume que o visitante já sabe quem é a empresa e o que precisa. Para leads que chegam via anúncio ou busca orgânica, essa ausência aumenta drasticamente a taxa de rejeição.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Texto "Sobre a Tamura Corporation" com dados de 2013 e desatualizado</div>
+      <div class="finding-desc">A página Sobre Nós menciona "vendas em 2013 superiores a 900 milhões de dólares" e referencia ações na Bolsa de Valores de Tóquio como "mais de 80 anos" — quando a empresa comemorou 100 anos em 2024. O link para a página comemorativa do centenário ainda está presente, mas o restante do texto não foi atualizado para refletir esse marco.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Valores da empresa listados como acrônimo "TAMURA" — didático demais, pouco impactante</div>
+      <div class="finding-desc">A seção de valores usa cada letra de TAMURA como inicial de uma diretriz. É um recurso mnemônico interno, mas em um site público voltado para clientes e parceiros, passa a impressão de comunicação corporativa genérica. Não diferencia a empresa nem transmite cultura real.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-ok">
+    <div class="finding-icon">🟢</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-o">Positivo</span>
+      <div class="finding-title">Central de Downloads com catálogos, flyers e manuais</div>
+      <div class="finding-desc">A existência de uma Central de Downloads com materiais técnicos (catálogos, flyers, manuais) é um diferencial real. Esse conteúdo é exatamente o que engenheiros e compradores técnicos buscam. Poderia ser ainda mais estratégica se os downloads fossem gated (exigindo e-mail para baixar), transformando cada download em um lead capturado.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-ok">
+    <div class="finding-icon">🟢</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-o">Positivo</span>
+      <div class="finding-title">Tour Digital da fábrica disponível</div>
+      <div class="finding-desc">O link para tour virtual da fábrica é um recurso diferenciado para o segmento industrial — transmite escala e credibilidade de fabricante. Está pouco destacado e deveria ser promovido como elemento de prova social na homepage.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-ok">
+    <div class="finding-icon">🟢</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-o">Positivo</span>
+      <div class="finding-title">Site trilingue (PT, EN, ES) — diferencial competitivo real</div>
+      <div class="finding-desc">A presença em três idiomas é coerente com a posição global da Tamura Corporation e abre mercados de exportação. Isso poderia ser mais explorado comercialmente, especialmente nas páginas de produtos onde a versão em inglês pode atrair projetos internacionais.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-ok">
+    <div class="finding-icon">🟢</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-o">Positivo</span>
+      <div class="finding-title">Credenciamento BNDES visível no rodapé</div>
+      <div class="finding-desc">A exibição do credenciamento BNDES é um sinal de confiança institucional importante para compras industriais de grande porte. Deveria estar mais visível — possivelmente na homepage e nas páginas de produto — não apenas no rodapé.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 07: RESPONSIVIDADE -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">07</span>
+    <span class="stitle">Responsividade e experiência mobile</span>
+  </div>
+
+  <div class="callout">
+    <strong>Contexto importante</strong>
+    Mesmo em um segmento B2B industrial, onde parte das decisões ocorre em desktop, engenheiros e compradores consultam fornecedores via celular durante obras, inspeções e deslocamentos. Uma experiência mobile ruim perde leads qualificados.
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Menu de 15 produtos no dropdown é inutilizável em mobile</div>
+      <div class="finding-desc">Um dropdown com 15 itens em tela de celular, sem implementação de menu hambúrguer adequado ou categorização em acordeão, cria uma experiência de navegação travada. O usuário mobile não consegue navegar pelo catálogo de forma fluida.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Carrossel de banners em mobile tende a não converter</div>
+      <div class="finding-desc">Carrosséis (sliders) de banners têm taxas de clique muito baixas em mobile — estudos de UX mostram que menos de 1% dos usuários clicam em slides além do primeiro. O espaço do banner deveria ser ocupado por uma proposta de valor estática e um botão de CTA direto.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Grade de 23 produtos sem filtro mobile — experiência de rolagem excessiva</div>
+      <div class="finding-desc">A listagem de todos os produtos sem filtro ou categorização adaptada para mobile força o usuário a rolar longamente para encontrar o produto relevante. Uma grade de produtos industrial B2B deveria ter filtros por categoria, tensão ou aplicação — especialmente em mobile.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 08: RASTREAMENTO -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">08</span>
+    <span class="stitle">Rastreamento, analytics e mensuração</span>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Pixels ativos sem estratégia de conversão vinculada</div>
+      <div class="finding-desc">O site tem Facebook Pixel e LinkedIn Insight Tag implementados, mas sem eventos de conversão configurados (formulário enviado, clique em botão de contato, download de catálogo). Isso significa que os pixels estão coletando audiência de remarketing, mas não há mensuração de resultados, não há otimização de campanhas possível e o dinheiro investido em anúncios não tem retorno rastreável.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Ausência de Google Analytics 4 identificado</div>
+      <div class="finding-desc">Não foi identificado o script do Google Analytics 4 (GA4) no código da página. Sem GA4, não há dados de: páginas mais visitadas, origem do tráfego, tempo no site, taxa de rejeição, funil de navegação ou comportamento do usuário. É impossível tomar decisões de otimização sem esses dados.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-critical">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-c">Crítico</span>
+      <div class="finding-title">Sem UTMs configurados para medir origem dos leads</div>
+      <div class="finding-desc">Mesmo que haja campanhas rodando (Google Ads, Meta Ads), sem parâmetros UTM nos links dos anúncios e sem GA4 para recebê-los, é impossível saber qual campanha, qual anúncio ou qual canal gerou qual lead. O orçamento de marketing é gasto sem visibilidade de ROI por canal.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 09: LGPD E JURÍDICO -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">09</span>
+    <span class="stitle">LGPD, privacidade e conformidade</span>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Política de Privacidade em domínio externo — risco de LGPD</div>
+      <div class="finding-desc">Os links de Política de Privacidade apontam para <strong>transformadores.tamura-br.com.br/pt-br/politica-de-privacidade</strong>. Se esse domínio ficar fora do ar ou mudar, os formulários de coleta de dados ficam sem a política de privacidade vinculada — o que pode gerar exposição legal. A política deveria estar hospedada no mesmo domínio do site.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Dados enviados para paginas.rocks — base legal de tratamento não declarada</div>
+      <div class="finding-desc">Os dados pessoais preenchidos nos formulários são enviados para um servidor de terceiros (paginas.rocks) sem que haja declaração pública de como esse processador trata os dados, onde estão armazenados e por quanto tempo. Sob a LGPD, a Tamura é responsável pelos dados mesmo que o processamento seja terceirizado.</div>
+    </div>
+  </div>
+
+  <div class="finding finding-warning">
+    <div class="finding-icon">🟠</div>
+    <div class="finding-body">
+      <span class="finding-tag tag-w">Atenção</span>
+      <div class="finding-title">Ausência de banner de consentimento de cookies (LGPD)</div>
+      <div class="finding-desc">O site usa cookies de rastreamento (Facebook Pixel, LinkedIn Tag, pixels de terceiros) mas não exibe banner de consentimento de cookies antes de carregá-los. Isso viola as diretrizes da LGPD que exigem consentimento prévio para cookies não essenciais.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MATRIZ DE PRIORIDADE -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">10</span>
+    <span class="stitle">Matriz de prioridade — impacto vs. esforço</span>
+  </div>
+  <div class="matrix-grid">
+    <div class="matrix-cell mc-red">
+      <h4>🔴 Fazer agora — alto impacto, baixo esforço</h4>
+      <ul>
+        <li>Adicionar telefone e WhatsApp em todas as páginas</li>
+        <li>Incluir CTA de contato fixo no topo da home</li>
+        <li>Adicionar Google Analytics 4</li>
+        <li>Corrigir copyright 2025 → 2026</li>
+        <li>Preencher horário de atendimento no rodapé</li>
+        <li>Configurar eventos de conversão nos pixels</li>
+      </ul>
+    </div>
+    <div class="matrix-cell mc-orange">
+      <h4>🟠 Planejar — alto impacto, esforço médio</h4>
+      <ul>
+        <li>Integrar formulários com CRM</li>
+        <li>Reposicionar formulário de orçamento para o topo</li>
+        <li>Reduzir menu de produtos para 5–6 categorias principais</li>
+        <li>Gerar leads via download de catálogos (gated content)</li>
+        <li>Implementar banner de consentimento de cookies</li>
+        <li>Criar landing pages por segmento (hospitalar, renovável, industrial)</li>
+      </ul>
+    </div>
+    <div class="matrix-cell mc-yellow">
+      <h4>🟡 Estruturar — impacto médio, esforço alto</h4>
+      <ul>
+        <li>Unificar site principal e blog em uma plataforma</li>
+        <li>Consolidar os dois domínios</li>
+        <li>Implementar Schema.org para produtos</li>
+        <li>Adicionar alt text em todas as imagens</li>
+        <li>Atualizar copy das páginas com proposta de valor</li>
+        <li>Substituir depoimentos por casos de sucesso completos</li>
+      </ul>
+    </div>
+    <div class="matrix-cell mc-green">
+      <h4>🟢 Evoluir — quando a base estiver sólida</h4>
+      <ul>
+        <li>Chat ao vivo ou chatbot para suporte técnico</li>
+        <li>Calculadora técnica interativa para especificação</li>
+        <li>Área do cliente/parceiro com login</li>
+        <li>Integração com ERP/sistema de pedidos</li>
+        <li>SEO avançado com cluster de conteúdo</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- PLANO DE AÇÃO -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">11</span>
+    <span class="stitle">Plano de ação recomendado</span>
+  </div>
+  <div class="roadmap">
+    <div class="phase">
+      <div class="phase-accent pa-red"></div>
+      <div class="phase-tag">Fase 1 · Semanas 1–2</div>
+      <div class="phase-title">Correções críticas sem desenvolvimento</div>
+      <ul>
+        <li>Exibir telefone e WhatsApp</li>
+        <li>Instalar GA4 e configurar eventos</li>
+        <li>Corrigir copyright e horário de atendimento</li>
+        <li>Ativar banner de cookies (LGPD)</li>
+        <li>Avaliar e auditar paginas.rocks</li>
+        <li>Mover política de privacidade para o domínio principal</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-accent pa-yellow"></div>
+      <div class="phase-tag">Fase 2 · Semanas 3–6</div>
+      <div class="phase-title">Estrutura de captação de leads</div>
+      <ul>
+        <li>Implementar CRM (HubSpot ou RD Station)</li>
+        <li>Conectar formulários ao CRM</li>
+        <li>Reposicionar CTA na homepage</li>
+        <li>Criar pipeline de vendas no CRM</li>
+        <li>Configurar UTMs em todas as campanhas</li>
+        <li>Gated download nos catálogos</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-accent pa-green"></div>
+      <div class="phase-tag">Fase 3 · Meses 2–3</div>
+      <div class="phase-title">Otimização e crescimento</div>
+      <ul>
+        <li>Redesenhar menu de produtos</li>
+        <li>Criar landing pages por segmento</li>
+        <li>Unificar plataformas (site + blog)</li>
+        <li>Estratégia de conteúdo SEO</li>
+        <li>Remarketing baseado em dados reais</li>
+        <li>Relatórios mensais de performance</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- RESUMO FINAL -->
+<div class="section">
+  <div class="section-header">
+    <span class="snum">12</span>
+    <span class="stitle">Resumo consolidado da auditoria</span>
+  </div>
+  <table class="audit-table">
+    <thead>
+      <tr>
+        <th>Dimensão</th>
+        <th>Status</th>
+        <th>Principal problema</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Captação de leads</td><td><span class="badge badge-red">Crítico</span></td><td>Sem telefone, sem CTA visível, formulários em caixa preta</td><td>Imediata</td></tr>
+      <tr><td>Rastreamento</td><td><span class="badge badge-red">Crítico</span></td><td>Sem GA4, pixels sem eventos de conversão</td><td>Imediata</td></tr>
+      <tr><td>CRM / Pipeline</td><td><span class="badge badge-red">Crítico</span></td><td>Inexistente — leads sem destino</td><td>Imediata</td></tr>
+      <tr><td>Estrutura técnica</td><td><span class="badge badge-red">Crítico</span></td><td>Dois domínios, dois sistemas, dependências externas</td><td>Curto prazo</td></tr>
+      <tr><td>Performance</td><td><span class="badge badge-red">Crítico</span></td><td>Pixels bloqueantes, imagens sem otimização</td><td>Curto prazo</td></tr>
+      <tr><td>Acessibilidade</td><td><span class="badge badge-red">Crítico</span></td><td>Alt texts ausentes em todas as imagens</td><td>Curto prazo</td></tr>
+      <tr><td>SEO</td><td><span class="badge" style="background:#fef9c3;color:#854d0e">Alerta</span></td><td>Domínios fragmentados, blog desatualizado</td><td>Médio prazo</td></tr>
+      <tr><td>Navegação / UX</td><td><span class="badge" style="background:#fef9c3;color:#854d0e">Alerta</span></td><td>Menu com 15 itens, sem proposta de valor</td><td>Médio prazo</td></tr>
+      <tr><td>Responsividade</td><td><span class="badge" style="background:#fef9c3;color:#854d0e">Alerta</span></td><td>Menu mobile inutilizável, carrossel de baixa conversão</td><td>Médio prazo</td></tr>
+      <tr><td>LGPD</td><td><span class="badge" style="background:#fef9c3;color:#854d0e">Alerta</span></td><td>Sem banner de cookies, política em domínio externo</td><td>Imediata</td></tr>
+      <tr><td>Conteúdo / Copy</td><td><span class="badge" style="background:#fef9c3;color:#854d0e">Alerta</span></td><td>Dados desatualizados, sem proposta de valor na home</td><td>Médio prazo</td></tr>
+      <tr><td>Prova social</td><td><span class="badge" style="background:#fef9c3;color:#854d0e">Alerta</span></td><td>Depoimentos sem credibilidade verificável</td><td>Médio prazo</td></tr>
+      <tr><td>Central de Downloads</td><td><span class="badge badge-green">Positivo</span></td><td>Existe — poderia gerar leads (gated content)</td><td>Oportunidade</td></tr>
+      <tr><td>Tour digital</td><td><span class="badge badge-green">Positivo</span></td><td>Diferencial pouco explorado</td><td>Oportunidade</td></tr>
+      <tr><td>Trilingue (PT/EN/ES)</td><td><span class="badge badge-green">Positivo</span></td><td>Bem implementado, poderia ser mais explorado</td><td>Manter</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer-note">
+  Análise técnica e estratégica do site tamurabrasil.com · Março 2026 · Documento interno para apresentação à gestão comercial
+</div>
+
+</div>
+</body>
+</html>
